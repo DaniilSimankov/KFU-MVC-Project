@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <title>Студент курса</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #6B5B95;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .header a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+        }
+
+        .header a:hover {
+            background-color: #0069d9;
+        }
+
+        .h1 {
+            text-align: center;
+            color: #006699;
+        }
+
+        .student-info {
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .student-info h2 {
+            margin-top: 0;
+        }
+
+        .student-info ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .student-info li {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .student-info label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .btn  {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.2s ease-in-out;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .delete-btn {
+            display: inline-block;
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            background-color: #dc3545;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s ease-in-out;
+            margin-left: 10px;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Учебные курсы для студентов</h1>
+    <div>
+        <a href="/index">Главная</a>
+        <a href="/profile">Профиль</a>
+        <a href="/courses">Курсы</a>
+        <a href="/signUp">Регистрация</a>
+        <a href="/signIn">Авторизация</a>
+    </div>
+</div>
+<h1 class="h1">Информация о студенте курса</h1>
+<div class="student-info">
+    <h2 th:text="${student.firstName + ' ' + student.lastName}">Имя Фамилия</h2>
+    <ul>
+        <li>
+            <label>Почта:</label>
+            <p th:text="${student.email}"> text </p>
+        </li>
+        <li>
+            <label>Список курсов:</label>
+            <ul th:each="course : ${student.courses}">
+                <a th:href="@{/courses/{id}(id=${course.id})}" th:text="${course.title}"></a>
+                <!--        <li th:text="${course.title}">Курс</li>-->
+            </ul>
+        </li>
+    </ul>
+
+    <div th:if="${state} == 'CONFIRMED'">
+        <form class="delete-form" th:action="@{/students/{id}/ban(id=${student.id})}" th:method="POST">
+            <input
+                    type="hidden"
+                    th:name="${_csrf.parameterName}"
+                    th:value="${_csrf.token}"/>
+            <input class="delete-btn" type="submit" value="Заблокировать"/>
+        </form>
+    </div>
+    <div th:if="${state} == 'CONFIRMED' or ${state} == 'BANNED'">
+
+        <form class="delete-form"
+              th:action="@{/students/{id}/delete(id=${student.id})}"
+              th:method="POST">
+            <input
+                    type="hidden"
+                    th:name="${_csrf.parameterName}"
+                    th:value="${_csrf.token}"/>
+            <input class="delete-btn" type="submit" value="Удалить"/>
+        </form>
+    </div>
+
+    <div th:if="${state} == 'BANNED' or ${state} == 'DELETED'">
+
+        <form class="delete-form"
+              th:action="@{/students/{id}/reinstate(id=${student.id})}"
+              th:method="POST">
+            <input
+                    type="hidden"
+                    th:name="${_csrf.parameterName}"
+                    th:value="${_csrf.token}"/>
+            <input class="btn" type="submit" value="Восстановить аккаунт"/>
+        </form>
+    </div>
+</div>
+</body>
+</html>

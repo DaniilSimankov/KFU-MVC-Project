@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            background-color: #6B5B95;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+        .header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+        .header a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+        }
+        .header a:hover {
+            background-color: #0069d9;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        h2 {
+            font-size: 24px;
+            margin-top: 40px;
+            margin-bottom: 10px;
+        }
+        .courses {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .link-button {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .link-button:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Учебные курсы для студентов</h1>
+    <div>
+        <a href="/index">Главная</a>
+        <a href="/profile">Профиль</a>
+        <a href="/courses">Курсы</a>
+        <a href="/signUp">Регистрация</a>
+        <a href="/signIn">Авторизация</a>
+    </div>
+</div>
+
+<div class="container">
+    <h1>Список курсов</h1>
+    <h2>Доступно:</h2>
+    <div class="courses" th:each="course : ${courses}">
+        <a class="row" th:href="@{/courses/{id}(id=${course.getId()})}"
+           th:text="${course.getTitle()}"
+        >text</a>
+    </div>
+
+    <div th:if="${admin}">
+        <a class="link-button" href="/courses/add">Добавить курс</a>
+    </div>
+
+    <div th:if="${admin}">
+        <a class="link-button" href="/students">Посмотреть всех студентов</a>
+    </div>
+</div>
+</body>
+</html>

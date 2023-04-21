@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Список студентов курса</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #6B5B95;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .header a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+        }
+
+        .header a:hover {
+            background-color: #0069d9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-top: 40px;
+            margin-bottom: 10px;
+        }
+
+        .students {
+            list-style: none;
+            padding: 0;
+        }
+
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            text-decoration: none;
+            color: #333;
+        }
+
+        .row:hover {
+            background-color: #f2f2f2;
+        }
+
+        .course-name {
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .delete-btn {
+            display: inline-block;
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            background-color: #dc3545;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+
+        .delete-form {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Учебные курсы для студентов</h1>
+    <div>
+        <a href="/index">Главная</a>
+        <a href="/profile">Профиль</a>
+        <a href="/courses">Курсы</a>
+        <a href="/signUp">Регистрация</a>
+        <a href="/signIn">Авторизация</a>
+    </div>
+</div>
+<div class="container">
+    <h1>Список студентов курса</h1>
+    <div class="course-name" th:text="${course.title}">Название курса</div>
+    <div class="students" th:each="student : ${students}">
+        <a class="row" th:href="@{/students/{id}(id=${student.id})}">
+            <span th:text="${student.email}">text</span>
+            <form class="delete-form" th:action="@{/courses/{id_course}/students/delete/{id_student}(id_course=${course.id}, id_student=${student.id})}" th:method="POST">
+                <input
+                        type="hidden"
+                        th:name="${_csrf.parameterName}"
+                        th:value="${_csrf.token}"/>
+                <input class="delete-btn" type="submit" value="Удалить c курса"/>
+            </form>
+        </a>
+    </div>
+</div>
+</body>
+</html>

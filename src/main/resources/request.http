@@ -1,0 +1,6 @@
+POST localhost:8080/signIn
+
+{
+email: dans@d.com,
+password: d
+}

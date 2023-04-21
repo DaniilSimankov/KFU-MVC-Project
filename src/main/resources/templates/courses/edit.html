@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <title>Редактирование курса</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #6B5B95;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .header a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            padding: 10px;
+        }
+
+        .header a:hover {
+            background-color: #0069d9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        label {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 250px;
+            box-sizing: border-box;
+        }
+
+        .bnt {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 20px;
+            transition: background-color 0.2s ease-in-out;
+            width: 100%;
+            max-width: 400px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        .bnt {
+            background-color: #0056b3;
+        }
+        .delete-btn {
+            display: inline-block;
+            padding: 5px;
+            border-radius: 5px;
+            border: none;
+            background-color: #dc3545;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s ease-in-out;
+            margin-left: 10px;
+        }
+
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .ref {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .ref a:hover {
+            text-decoration: underline;
+        }
+        .lesson {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .lesson input[type="text"] {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .lesson .delete-btn {
+            margin-left: 0;
+        }
+        .link-button {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .link-button:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>Учебные курсы для студентов</h1>
+    <div>
+        <a href="/index">Главная</a>
+        <a href="/profile">Профиль</a>
+        <a href="/courses">Курсы</a>
+        <a href="/signUp">Регистрация</a>
+        <a href="/signIn">Авторизация</a>
+    </div>
+</div>
+<div class="container">
+    <h1>Редактирование курса</h1>
+    <form th:action="@{/courses/{id}/edit(id=${course.getId()})}" th:method="POST" th:object="${course}">
+        <label for="title">Название:</label>
+        <input type="text" id="title" name="title" required th:field="${course.title}"/>
+
+       <label for="lesson">Занятия:</label>
+        <div th:each="lesson, idx : ${course.lessons}" class="lesson">
+            <input type="hidden" name="lesson" th:field="${course.lessons[__${idx.index}__].id}" />
+            <input type="text" id="lesson" name="lesson" th:field="${course.lessons[__${idx.index}__].name}" />
+<!--            <form th:action="@{/courses/{id_course}/lessons/{id_lesson}(id_course=${course.getId()}, id_lesson=${lesson.getId()})}" th:method="POST"> <input class="delete-btn" type="submit" value="Удалить"/> </form>-->
+            <a th:href="@{/courses/{id_course}/lessons/{id_lesson}(id_course=${course.id},id_lesson=${lesson.id})}" class="delete-btn">Удалить</a>
+        </div>
+
+        <input class="bnt" type="submit" value="Сохранить изменения названий"/>
+    </form>
+
+    <h2>Добавить урок</h2>
+    <form th:action="@{/courses/{id}/lessons(id=${course.getId()})}" th:method="POST" th:object="${newLesson}">
+        <input
+                type="hidden"
+                th:name="${_csrf.parameterName}"
+                th:value="${_csrf.token}"/>
+        <label for="lessonName">Название:</label>
+        <input type="text" id="lessonName" name="name" th:field="${newLesson.name}"/>
+        <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+
+        <input class="bnt" type="submit" value="Добавить"/>
+    </form>
+
+    <a class="link-button" th:href="@{/courses/{id_course}(id_course=${course.id})}">Вернуться назад</a>
+</div>
+</body>
+</html>
