@@ -23,4 +23,6 @@ public interface StudentsService {
     void reinstateStudentById(Long id);
 
     List<StudentDto> findStudentByEmailContaining(String email); //for search
+
+    void deleteStudentByEmail(String email);
 }

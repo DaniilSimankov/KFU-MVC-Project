@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import ru.kpfu.models.Course;
 import ru.kpfu.models.Lesson;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 @Builder
 public class CourseLessonDto {
     private Long id;
+    @NotBlank
     private String title;
     private List<LessonDto> lessons;
     boolean isRunning;

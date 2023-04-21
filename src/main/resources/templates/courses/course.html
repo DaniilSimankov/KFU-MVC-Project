@@ -132,7 +132,7 @@
         <!--            <form th:action="@{/courses/{id_course}/lessons/{id_lesson}(id_course=${course.getId()}, id_lesson=${lesson.getId()})}" th:method="POST"> <input class="delete-btn" type="submit" value="Удалить"/> </form>-->
     </div>
     <div th:if="${not admin}">
-        <form class="buttons-form" th:action="@{/courses/{id}(id=${course.getId()})}" th:method="POST">
+        <form class="buttons-form" th:action="@{/courses/{id}/subscribe(id=${course.getId()})}" th:method="POST">
             <input
                     type="hidden"
                     th:name="${_csrf.parameterName}"
@@ -140,7 +140,7 @@
             <input type="submit" value="Записаться на курс" th:if="${not isRunning}">
         </form>
 
-        <form class="buttons-form" th:action="@{/courses/{id}/deleteStudent(id=${course.getId()})}" th:method="POST">
+        <form class="buttons-form" th:action="@{/courses/{id}/unsubscribe(id=${course.getId()})}" th:method="POST">
             <input
                     type="hidden"
                     th:name="${_csrf.parameterName}"

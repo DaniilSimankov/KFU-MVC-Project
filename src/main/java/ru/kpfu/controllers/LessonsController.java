@@ -19,7 +19,7 @@ public class LessonsController {
     private final CoursesLessonsService coursesLessonsService;
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping("/{idCourse}/lessons/{idLesson}")
+    @GetMapping("/{idCourse}/lessons/delete/{idLesson}")
     public String deleteLesson(@PathVariable Long idCourse, @PathVariable Long idLesson) {
 
         coursesLessonsService.deleteFromCourseLessonById(idCourse, idLesson);
@@ -29,7 +29,7 @@ public class LessonsController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/{id}/lessons")
-    public String addLessonToCourse(@PathVariable Long id, @ModelAttribute("course") @Valid CourseLessonDto course, @ModelAttribute("newLesson") @Valid LessonDto newLesson,
+    public String addLessonToCourse(@PathVariable Long id, @ModelAttribute("newLesson") @Valid LessonDto newLesson,
                                     BindingResult bindingResult) {
 
         if (bindingResult.hasErrors())

@@ -74,4 +74,13 @@ public class StudentsServiceImpl implements StudentsService {
     public List<StudentDto> findStudentByEmailContaining(String email) {
         return StudentDto.from(studentsRepository.findStudentsByEmailContainingIgnoreCase(email));
     }
+
+    @Override
+    public void deleteStudentByEmail(String email) {
+        Student student = studentsRepository.getByEmail(email);
+        student.getCourses().clear();
+        student.setState(Student.State.DELETED);
+
+        studentsRepository.save(student);
+    }
 }

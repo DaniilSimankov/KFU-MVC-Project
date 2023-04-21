@@ -168,12 +168,13 @@
         <label for="title">Название:</label>
         <input type="text" id="title" name="title" required th:field="${course.title}"/>
 
-       <label for="lesson">Занятия:</label>
+
+        <label for="lesson">Занятия:</label>
         <div th:each="lesson, idx : ${course.lessons}" class="lesson">
             <input type="hidden" name="lesson" th:field="${course.lessons[__${idx.index}__].id}" />
             <input type="text" id="lesson" name="lesson" th:field="${course.lessons[__${idx.index}__].name}" />
 <!--            <form th:action="@{/courses/{id_course}/lessons/{id_lesson}(id_course=${course.getId()}, id_lesson=${lesson.getId()})}" th:method="POST"> <input class="delete-btn" type="submit" value="Удалить"/> </form>-->
-            <a th:href="@{/courses/{id_course}/lessons/{id_lesson}(id_course=${course.id},id_lesson=${lesson.id})}" class="delete-btn">Удалить</a>
+            <a th:href="@{/courses/{id_course}/lessons/delete/{id_lesson}(id_course=${course.id},id_lesson=${lesson.id})}" class="delete-btn">Удалить</a>
         </div>
 
         <input class="bnt" type="submit" value="Сохранить изменения названий"/>

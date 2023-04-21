@@ -47,7 +47,7 @@ public class CoursesController {
         return "courses/course";
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/{id}/subscribe")
     @PreAuthorize("isAuthenticated()")
     public String addCourse(@PathVariable Long id, Authentication authentication) {
 
@@ -56,7 +56,7 @@ public class CoursesController {
         return "redirect:/courses";
     }
 
-    @PostMapping("/{id}/deleteStudent")
+    @PostMapping("/{id}/unsubscribe")
     @PreAuthorize("isAuthenticated()")
     public String deleteStudentFromCourse(@PathVariable Long id, Authentication authentication) {
 
@@ -86,7 +86,7 @@ public class CoursesController {
 
     @PostMapping("/{id}/edit")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public String updateCourse(@PathVariable Long id, @ModelAttribute("course") CourseLessonDto course,
+    public String updateCourse(@PathVariable Long id, @ModelAttribute("course") @Valid CourseLessonDto course, @ModelAttribute("newLesson") @Valid LessonDto newLesson,
                                BindingResult bindingResult) {
 
         if (bindingResult.hasErrors())

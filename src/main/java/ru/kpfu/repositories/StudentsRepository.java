@@ -12,6 +12,8 @@ import java.util.Set;
 public interface StudentsRepository extends JpaRepository<Student, Long> {
     Optional<Student> findByEmail(String email);
 
+    void deleteStudentByEmail(String email);
+
     List<Student> findAllByState(Student.State state);
 
     List<Student> findStudentsByEmailContainingIgnoreCase(String email); // for search

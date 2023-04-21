@@ -168,7 +168,7 @@
         <input class="btn" type="submit" value="Сохранить изменения"/>
     </form>
 
-    <form th:action="@{/profile/{id}/delete(id=${profile.id})}" th:method="POST" th:object="${profile}">
+    <form th:action="@{/profile/delete}" th:method="POST" th:object="${profile}">
         <input
                 type="hidden"
                 th:name="${_csrf.parameterName}"

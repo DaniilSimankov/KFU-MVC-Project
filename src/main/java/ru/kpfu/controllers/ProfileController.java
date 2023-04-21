@@ -62,4 +62,13 @@ public class ProfileController {
 
         return "redirect:/logout";
     }
+
+    @PostMapping("/profile/delete")
+    @PreAuthorize("isAuthenticated()")
+    public String deleteProfileByEmail(Authentication authentication){
+
+        studentsService.deleteStudentByEmail(authentication.getName());
+
+        return "redirect:/logout";
+    }
 }
